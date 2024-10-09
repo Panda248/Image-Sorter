@@ -96,28 +96,28 @@ def init() :
 
     #title
     title = ttk.Label(frame, text="Image Sorter")
-    title.grid(column = 1, row = 0, columnspan = 2)
+    title.grid(column = 1, row = 0, columnspan = 3)
 
     #image
     img = ImageTk.PhotoImage(Image.open(srcpath+imgname).resize((500,500)))
     image = ttk.Label(frame, image = img)
-    image.grid(column = 1, row=1, columnspan = 2)
+    image.grid(column = 1, row=1, columnspan = 3)
 
     #sort buttons
     dir1 = ttk.Button(frame, text = directory1, command= lambda : moveFile(directory1))
     dir1.grid(column = 1, row = 2)
     dir2 = ttk.Button(frame, text = directory2, command = lambda : moveFile(directory2))
-    dir2.grid(column = 2, row = 2)
+    dir2.grid(column = 3, row = 2)
     
     #skip button
-    skip = ttk.Button(frame, text = "Skip", command = lambda : skipImage)
-    skip.grid(column = 2, row = 2, columnspan = 2)
+    skip = ttk.Button(frame, text = "Skip", command = skipImage)
+    skip.grid(column = 2, row = 2)
     
     #source and directory browser buttons
     dirBrowse = ttk.Button(frame, text = "Select Directories", command = defineDirectories)
     dirBrowse.grid(row = 0, column = 0)
     srcBrowse = ttk.Button(frame, text = srcpath, command = defineSource)
-    srcBrowse.grid(row = 0, column = 3)
+    srcBrowse.grid(row = 0, column = 4)
     
 
 def main() :
