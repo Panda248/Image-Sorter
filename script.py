@@ -23,6 +23,7 @@ dir1 : Button
 dir2 : Button
 dirBrowse : Button
 srcBrowse : Button
+skip : Button
 
 
 def moveFile(directory) :
@@ -72,9 +73,14 @@ def changeImage() :
     image.configure(image=img)
     image.image = img
 
+def skipImage() :
+    fileList.remove(fileList[0])
+    if(changeImageFile()) :
+        changeImage()
+    
 def init() :
     #init vars
-    global fileList, root, img, image, title, frame, dir1, dir2, dirBrowse, srcBrowse
+    global fileList, root, img, image, title, frame, dir1, dir2, dirBrowse, srcBrowse, skip
 
     ImageFile.LOAD_TRUNCATED_IMAGES = True
     fileList = os.listdir(srcpath)
@@ -103,11 +109,16 @@ def init() :
     dir2 = ttk.Button(frame, text = directory2, command = lambda : moveFile(directory2))
     dir2.grid(column = 2, row = 2)
     
+    #skip button
+    skip = ttk.Button(frame, text = "Skip", command = lambda : skipImage)
+    skip.grid(column = 2, row = 2, columnspan = 2)
+    
     #source and directory browser buttons
     dirBrowse = ttk.Button(frame, text = "Select Directories", command = defineDirectories)
     dirBrowse.grid(row = 0, column = 0)
     srcBrowse = ttk.Button(frame, text = srcpath, command = defineSource)
     srcBrowse.grid(row = 0, column = 3)
+    
 
 def main() :
     init()
