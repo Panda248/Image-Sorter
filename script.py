@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 from shutil import *
+from PIL import ImageTk, Image
 
 #declare vars
 imgname = r"4weirdegg.png"
@@ -14,6 +15,7 @@ fileList : list[str]
 #declare gui vars
 root : Tk
 img : PhotoImage
+newImg : PhotoImage
 image : Label
 title : Label
 frame : Frame
@@ -48,10 +50,10 @@ def changeImageFile() -> bool:
     return False
         
 def changeImage() :
-    global img
-    newImg = PhotoImage(srcpath + imgname)
-    img = newImg
-    image.config(image = newImg)
+    global img, image
+    img = ImageTk.PhotoImage(Image.open(srcpath + imgname))
+    image = ttk.Label(frame, image = img)
+    image.pack()
     
 
 def init() :
@@ -74,7 +76,7 @@ def init() :
     title.grid(column = 1, row = 0, columnspan = 2)
 
     #image
-    img = PhotoImage(file=srcpath+imgname)
+    img = ImageTk.PhotoImage(Image.open(srcpath+imgname))
     image = ttk.Label(frame, image = img)
     image.grid(column = 1, row=1, columnspan = 2)
 
