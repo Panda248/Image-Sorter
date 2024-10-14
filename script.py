@@ -3,7 +3,9 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 from shutil import *
-from PIL import ImageTk, Image, ImageFile
+from PIL import ImageTk, Image, ImageFile, UnidentifiedImageError
+import imghdr
+import  keyboard
 
 #declare vars
 imgname = r"4weirdegg.png"
@@ -58,7 +60,8 @@ def defineSource() :
 
 def changeImageFile() -> bool:
     global imgname
-    while(not (fileList[0].endswith(".png") or fileList[0].endswith(".PNG") or fileList[0].endswith(".jpg") or fileList[0].endswith(".JPG"))) :
+    while(imghdr.what(srcpath + fileList[0]) != None and 
+          not imghdr.what(srcpath + fileList[0]).lower() in ["png", "jpg", "jpeg"] ) :
         fileList.remove(fileList[0])
     
     if(len(fileList) > 0) :
@@ -69,7 +72,11 @@ def changeImageFile() -> bool:
         
 def changeImage() :
     global img, image
-    img = ImageTk.PhotoImage(Image.open(srcpath + imgname).resize((500,500)))
+    try :
+        img = ImageTk.PhotoImage(Image.open(srcpath + imgname).resize((500,500)))
+    except UnidentifiedImageError:
+        changeImageFile()
+        changeImage()
     image.configure(image=img)
     image.image = img
 
@@ -119,6 +126,10 @@ def init() :
     srcBrowse = ttk.Button(frame, text = srcpath, command = defineSource)
     srcBrowse.grid(row = 0, column = 4)
     
+    #keyboard shortcut
+    keyboard.add_hotkey('left', lambda : moveFile(directory1), trigger_on_release=True)
+    keyboard.add_hotkey('right', lambda : moveFile(directory2), trigger_on_release=True)
+    keyboard.add_hotkey('up', skipImage)    
 
 def main() :
     init()
